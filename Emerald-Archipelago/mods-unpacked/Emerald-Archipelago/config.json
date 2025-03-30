@@ -1,0 +1,21 @@
+{
+	"data":{
+		"test": 0
+	},
+	"extra": {
+		"godot": {
+			"config_schema": {
+				"title": "Config",
+				"description": "Config for this Mod",
+				"type": "object",
+				"properties": {
+					"example_text": {
+						"title": "Example text:",
+						"type": "string",
+						"default": "Some example string"
+					}
+				}
+			}
+		}
+	}
+}

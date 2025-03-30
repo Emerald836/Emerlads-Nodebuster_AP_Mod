@@ -1,0 +1,106 @@
+[gd_scene load_steps=3 format=3 uid="uid://4x241s61dt5h"]
+
+[ext_resource type="Script" path="res://mods-unpacked/Emerald-Archipelago/ArchipelagoConsole.gd" id="1_582y3"]
+[ext_resource type="PackedScene" uid="uid://cjqgfnah8fy1f" path="res://Scenes/UI/Buttons/TextButton.tscn" id="2_rpp03"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_582y3")
+
+[node name="ArchipelagoConsole" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ArchipelagoConsole"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="URL" type="LineEdit" parent="ArchipelagoConsole/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 0
+placeholder_text = "URL"
+virtual_keyboard_enabled = false
+
+[node name="Slotname" type="LineEdit" parent="ArchipelagoConsole/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 0
+placeholder_text = "Slotname"
+virtual_keyboard_enabled = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ArchipelagoConsole/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Password" type="LineEdit" parent="ArchipelagoConsole/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 0
+placeholder_text = "Password"
+virtual_keyboard_enabled = false
+
+[node name="TextButton" parent="ArchipelagoConsole/HBoxContainer/VBoxContainer" instance=ExtResource("2_rpp03")]
+custom_minimum_size = Vector2(64, 20)
+layout_mode = 2
+btn_text = "Connect"
+
+[node name="ConsoleText" type="RichTextLabel" parent="ArchipelagoConsole/HBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+scroll_active = false
+scroll_following = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ArchipelagoConsole"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -128.0
+offset_bottom = 180.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="ConsoleText" type="RichTextLabel" parent="ArchipelagoConsole/VBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+scroll_active = false
+scroll_following = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ArchipelagoConsole/VBoxContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="ConsoleInput" type="LineEdit" parent="ArchipelagoConsole/VBoxContainer/ScrollContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+placeholder_text = "Archipelago:33532 (slot_name)"
+expand_to_text_length = true
+
+[node name="ConsoleToggle" type="CheckButton" parent="ArchipelagoConsole/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+mouse_filter = 1
+button_pressed = true
+
+[connection signal="pressed" from="ArchipelagoConsole/HBoxContainer/VBoxContainer/TextButton" to="." method="_on_text_button_pressed"]
+[connection signal="text_submitted" from="ArchipelagoConsole/VBoxContainer/ScrollContainer/ConsoleInput" to="." method="_on_console_input_text_submitted"]
+[connection signal="toggled" from="ArchipelagoConsole/VBoxContainer/ConsoleToggle" to="." method="_on_console_toggle_toggled"]

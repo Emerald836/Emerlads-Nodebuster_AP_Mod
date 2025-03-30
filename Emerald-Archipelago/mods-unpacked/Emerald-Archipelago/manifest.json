@@ -1,0 +1,30 @@
+{
+	"dependencies": [],
+	"description": "A Nodebuster Mod to connect your game to the Archipelago Multiworld Randomzier.",
+	"extra": {
+		"godot": {
+			"authors": [
+				"Emerald"
+			],
+			"compatible_game_version": [
+				"1.3"
+			],
+			"compatible_mod_loader_version": [
+				"6.2.0"
+			],
+			"config_schema": {
+
+			},
+			"description_rich": "",
+			"image": null,
+			"incompatibilities": [],
+			"load_before": [],
+			"optional_dependencies": [],
+			"tags": []
+		}
+	},
+	"name": "Archipelago",
+	"namespace": "Emerald",
+	"version_number": "0.0.1",
+	"website_url": ""
+}
