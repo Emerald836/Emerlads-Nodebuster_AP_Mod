@@ -1,6 +1,9 @@
 # Nodebuster AP Mod
 This is a Mod for Nodebuster that provides integration for Archipelago Multi World
 * [Releases](https://github.com/Emerald836/Emerlads-Nodebuster_AP_Mod/releases)
+### Things to note
+* This mod prevents you from being able to play normally. by removing the mod from the mod folder it should revert and allow you to play normally.
+* While playing this mod it is highly recommended to choose new save when you join an ap world. if you do not want to lose your save I would recommend creating a backup.
 
 # Gameplay
 After generating a seed, every upgrade in the upgrade tree scene will be different. Instead of the first damage upgrade giving you a damage upgrade. It could instead give you a health upgrade.
