@@ -1,5 +1,6 @@
 # Nodebuster AP Mod
 This is a Mod for Nodebuster that provides integration for Archipelago Multi World
+* [Releases](https://github.com/Emerald836/Emerlads-Nodebuster_AP_Mod/releases)
 
 # Gameplay
 After generating a seed, every upgrade in the upgrade tree scene will be different. Instead of the first damage upgrade giving you a damage upgrade. It could instead give you a health upgrade.
