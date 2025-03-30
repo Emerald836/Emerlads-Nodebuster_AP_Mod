@@ -1,8 +1,7 @@
 extends CanvasLayer
-class_name ArchipelagoConsole
 
-@onready var console_toggle = $ArchipelagoConsole/VBoxContainer/ConsoleToggle
-@onready var console_input = $ArchipelagoConsole/VBoxContainer/ScrollContainer/ConsoleInput
+#@onready var console_toggle = $ArchipelagoConsole/VBoxContainer/ConsoleToggle
+#@onready var console_input = $ArchipelagoConsole/VBoxContainer/ScrollContainer/ConsoleInput
 @onready var console_text = $ArchipelagoConsole/HBoxContainer/ConsoleText
 @onready var scroll_container = $ArchipelagoConsole/VBoxContainer/ScrollContainer
 
@@ -18,16 +17,20 @@ var archipelagoMain: Node
 var messages: PackedStringArray
 
 
-var _ap_client: ArchipelagoClient
+var _ap_client
 
 var isConnected: bool = false
 
 
+var connectionButton
+
 func _ready():
 	var mod_node = get_node("/root/ModLoader/Emerald-Archipelago")
-	
-	
-	print(mod_node)
+	var connectionButton = get_node("ArchipelagoConsole/HBoxContainer/VBoxContainer/TextButton")
+	connectionButton.main_color = Color.GREEN
+	if ModLoaderMod.is_mod_loaded("Emerald-Archipelago"):
+		connectionButton.main_color = Color.RED
+	if connectionButton.pressed.is_connected(_on_text_button_pressed) == false: connectionButton.pressed.connect(_on_text_button_pressed)
 	_ap_client = mod_node.get_child(0)
 	_ap_client.logInformations.connect(_new_message)
 	_ap_client.packetConnected.connect(_connected_to_room)
@@ -41,10 +44,12 @@ func _log_informations(message:String) -> void:
 
 
 func _process(delta):
-	scroll_container.scroll_horizontal += 1
+	if scroll_container:
+		scroll_container.scroll_horizontal += 1
 
 
 func _connected_to_room() -> void:
+#	pass
 	url.visible = false
 	slotname.visible = false
 	password.visible = false
@@ -54,6 +59,7 @@ func _connected_to_room() -> void:
 
 
 func _disconnected_from_room() -> void:
+#	pass
 	url.visible = true
 	slotname.visible = true
 	password.visible = true
@@ -75,34 +81,20 @@ func _check_cmd(message:String) -> void:
 		try_connection(message)
 
 
-func _input(event):
-	if event.is_action_pressed("ui_accept"):
-		if url.visible:
-			try_connection("")
-
 
 func try_connection(message:String) -> void:
-	print("try to connect")
+#	print("try to connect")
 	
 	_ap_client.connectToServer(url.text,slotname.text,password.text)
 
 
 
-func _on_console_input_text_submitted(new_text):
-	
-	_new_message(new_text)
-	_check_cmd(new_text)
-	console_input.clear()
-
-
-func _on_console_toggle_toggled(toggled_on):
-	console_input.visible = toggled_on
-	console_text.visible = toggled_on
 
 
 func _on_text_button_pressed():
 	if isConnected == false:
 		if url.text == "" and slotname.text == "": return
+		try_connection("")
 		try_connection("")
 		return
 	_ap_client.disconnect_from_ap()

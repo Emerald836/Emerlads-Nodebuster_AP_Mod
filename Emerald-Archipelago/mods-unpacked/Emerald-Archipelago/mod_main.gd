@@ -5,7 +5,7 @@ var isUpgradeTree: bool
 var upgradeTree: UpgradeTree
 var milestonePage: MilestonesPage
 
-var apClient: ArchipelagoClient
+var apClient
 
 var upgrades: Dictionary
 
@@ -26,7 +26,7 @@ var labUnlocked: bool = false
 
 var isConnected: bool = false
 
-const ArchipelagoClient = preload("res://mods-unpacked/Emerald-Archipelago/ap/ArchipelagoClient.gd")
+#const ArchipelagoClient = preload("res://mods-unpacked/Emerald-Archipelago/ap/ArchipelagoClient.gd")
 
 
 
@@ -250,7 +250,7 @@ func _ready():
 	
 	
 	# Make and connect archipelago client
-	var apc = ArchipelagoClient.new()
+	var apc = load("res://mods-unpacked/Emerald-Archipelago/ap/ArchipelagoClient.gd").new()
 	call_deferred("add_child",apc)
 	apClient = apc
 	apc.item_received.connect(_recieve_check)
@@ -298,8 +298,8 @@ func _connected_to_room() -> void: ## When the client is connected to room
 
 func _add_console_scene(node:Node) -> void: ## Spawn console scene
 	var console_scene = load("res://mods-unpacked/Emerald-Archipelago/ArchipelagoConsole.tscn").instantiate()
-	node.call_deferred("add_child",console_scene)
 	console_scene.archipelagoMain = self
+	node.call_deferred("add_child",console_scene)
 
 
 func _node_added(node:Node) -> void:
@@ -439,7 +439,7 @@ func _get_loc_ids() -> void:
 		if upgrade.curr_level >= 0 and upgrade.curr_level < upgrade.costs.size():
 			loc_ids.append(apClient._location_name_to_id[upgrade_id + "-" + str(upgrade.curr_level+1)])
 	
-	apClient.sendScout(loc_ids,2)
+	apClient.sendScout(loc_ids)
 
 
 func _on_milestone_rewarded(entry:MilestoneEntry) -> void: ## Gives the reward of the milestone if you gain a milestone

@@ -64,43 +64,4 @@ bbcode_enabled = true
 scroll_active = false
 scroll_following = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ArchipelagoConsole"]
-visible = false
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -128.0
-offset_bottom = 180.0
-grow_horizontal = 0
-mouse_filter = 2
-
-[node name="ConsoleText" type="RichTextLabel" parent="ArchipelagoConsole/VBoxContainer"]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
-mouse_filter = 2
-bbcode_enabled = true
-scroll_active = false
-scroll_following = true
-
-[node name="ScrollContainer" type="ScrollContainer" parent="ArchipelagoConsole/VBoxContainer"]
-layout_mode = 2
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 0
-
-[node name="ConsoleInput" type="LineEdit" parent="ArchipelagoConsole/VBoxContainer/ScrollContainer"]
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-placeholder_text = "Archipelago:33532 (slot_name)"
-expand_to_text_length = true
-
-[node name="ConsoleToggle" type="CheckButton" parent="ArchipelagoConsole/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-mouse_filter = 1
-button_pressed = true
-
 [connection signal="pressed" from="ArchipelagoConsole/HBoxContainer/VBoxContainer/TextButton" to="." method="_on_text_button_pressed"]
-[connection signal="text_submitted" from="ArchipelagoConsole/VBoxContainer/ScrollContainer/ConsoleInput" to="." method="_on_console_input_text_submitted"]
-[connection signal="toggled" from="ArchipelagoConsole/VBoxContainer/ConsoleToggle" to="." method="_on_console_toggle_toggled"]
