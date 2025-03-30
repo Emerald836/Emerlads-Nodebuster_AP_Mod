@@ -7,12 +7,21 @@ After generating a seed, every upgrade in the upgrade tree scene will be differe
 
 Locations(Checks) are the upgrade nodes in the upgrade tree.
 
-## Recommended Software
+### Recommended Software
 * QOL Mods.
     * I would highly recommend using a QOL mod just to make your life easier. As this while normally not long. Does have over 500 checks on the standard settings. And with progression being so broken up due to randomization it can easily make the game a lot longer.
     * If you can not find a mod for Nodebuster you can find one [Here](https://github.com/Emerald836/Emerlad-Nodebuster-QOL-Mod/releases/tag/v0.1.0)
 
 # Installation
+### Required Software
+* A legal copy of Nodebuster.
+    * Steam.
+    * Windows.
+* Download the Godot Mod Loader from this [Github](https://github.com/GodotModding/godot-mod-loader/pull/533)
+    * We use this version due to the main branch not working with Nodebuster.
+* Download the [Archipelago Mod](https://github.com/Emerald836/Emerlads-Nodebuster_AP_Mod/releases)
+
+## Installing Mod Loader and Mod
 1. After downloading the Mod Loader from [here](https://github.com/GodotModding/godot-mod-loader/pull/533). Extract the addons folder from the zip and put it in your Nodebuster files right next to the Executable.
  * This can be found by right clicking on your Nodebuster game in steam and clicking browse local files.
 2. Go back to steam and go to the properties window by right clicking your Nodebuster game and clicking properties.
