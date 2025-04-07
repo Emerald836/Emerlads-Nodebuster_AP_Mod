@@ -3,7 +3,6 @@ extends CanvasLayer
 #@onready var console_toggle = $ArchipelagoConsole/VBoxContainer/ConsoleToggle
 #@onready var console_input = $ArchipelagoConsole/VBoxContainer/ScrollContainer/ConsoleInput
 @onready var console_text = $ArchipelagoConsole/HBoxContainer/ConsoleText
-@onready var scroll_container = $ArchipelagoConsole/VBoxContainer/ScrollContainer
 
 @onready var url = $ArchipelagoConsole/HBoxContainer/URL
 @onready var password = $ArchipelagoConsole/HBoxContainer/VBoxContainer/Password
@@ -26,7 +25,7 @@ var connectionButton
 
 func _ready():
 	var mod_node = get_node("/root/ModLoader/Emerald-Archipelago")
-	var connectionButton = get_node("ArchipelagoConsole/HBoxContainer/VBoxContainer/TextButton")
+	connectionButton = get_node("ArchipelagoConsole/HBoxContainer/VBoxContainer/TextButton")
 	connectionButton.main_color = Color.GREEN
 	if ModLoaderMod.is_mod_loaded("Emerald-Archipelago"):
 		connectionButton.main_color = Color.RED
@@ -43,9 +42,6 @@ func _log_informations(message:String) -> void:
 		_disconnected_from_room()
 
 
-func _process(delta):
-	if scroll_container:
-		scroll_container.scroll_horizontal += 1
 
 
 func _connected_to_room() -> void:
@@ -54,22 +50,22 @@ func _connected_to_room() -> void:
 	slotname.visible = false
 	password.visible = false
 	isConnected = true
-	connectBTN.btn_text = "Disconnect"
-	connectBTN.main_color = Color(.94,.22,.24,1)
+	#connectBTN.btn_text = "Disconnect"
+	#connectBTN.main_color = Color(.94,.22,.24,1)
 
 
 func _disconnected_from_room() -> void:
 #	pass
-	url.visible = true
-	slotname.visible = true
-	password.visible = true
+	#url.visible = true
+	#slotname.visible = true
+	#password.visible = true
 	isConnected = false
-	connectBTN.btn_text = "Connect"
-	connectBTN.main_color = Color(.27,.47,.96,1)
+	#connectBTN.btn_text = "Connect"
+	#connectBTN.main_color = Color(.27,.47,.96,1)
 
 
 func _new_message(message:String) -> void:
-	print("Message recieved: ", message)
+	#print("Message recieved: ", message)
 	if message == "Disconnecting...":
 		_disconnected_from_room()
 	console_text.append_text("\n"+message)
@@ -82,11 +78,10 @@ func _check_cmd(message:String) -> void:
 
 
 
-func try_connection(message:String) -> void:
+func try_connection(_message:String) -> void:
 #	print("try to connect")
-	
-	_ap_client.connectToServer(url.text,slotname.text,password.text)
-
+	return
+	#_ap_client.connectToServer(url.text,slotname.text,password.text)
 
 
 
@@ -94,7 +89,6 @@ func try_connection(message:String) -> void:
 func _on_text_button_pressed():
 	if isConnected == false:
 		if url.text == "" and slotname.text == "": return
-		try_connection("")
 		try_connection("")
 		return
 	_ap_client.disconnect_from_ap()

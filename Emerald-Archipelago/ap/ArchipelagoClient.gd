@@ -1,12 +1,12 @@
 class_name ArchipelagoClient extends Node
 
-var _ap_server: String = ""
-var _ap_user: String = ""
-var _ap_pass: String = ""
+var _ap_server: String = "" ## The server that the user is trying to connect with. ie. archipelago:{port number}
+var _ap_user: String = "" ## The players slot name they are trying to connect with.
+var _ap_pass: String = "" ## The password to connect to the room with.
 
-const my_version = "0.0.1"
-const ap_version = {"major": 0, "minor": 5, "build": 1, "class": "Version"}
-const GAME_NAME = "Nodebuster"
+const my_version = "0.1.0" ## The version of the mod. (this is used in the ap world to make sure you are connecting with the right version.
+const ap_version = {"major": 0, "minor": 6, "build": 1, "class": "Version"} ## The version of the apworld/ap launcher.
+const GAME_NAME = "Nodebuster" ## Your game name.
 
 var _client
 var _initiated_disconnect = false
@@ -20,22 +20,20 @@ var _item_name_to_id: Dictionary = {}  # Game only
 var _location_name_to_id: Dictionary = {}  # Game only
 
 var _remote_version = {"major": 0, "minor": 0, "build": 0}
-const color_items = [
-	"White", "Black", "Red", "Blue", "Green", "Brown", "Gray", "Orange", "Purple", "Yellow"
-] # Remove This
+
 
 # TODO: caching per MW/slot, reset between connections
 var _authenticated = false
-var _seed: String = "" # Don't think i need this
-var _team = 0
-var _slot = 0
-var _players = []
-var _player_name_by_slot: Dictionary = {}
-var _checked_locations = []
-var _slot_data = {}
+var _seed: String = ""
+var _team = 0 ## The team that this client is on.
+var _slot = 0 ## The slot number this client is.
+var _players = [] ## A list of players.
+var _player_name_by_slot: Dictionary = {} ## A list of player names based off of their slot
+var _checked_locations = [] ## Every location you checked in the game. (ie. upgrade nodes)
+var _slot_data = {} ## Information of the slot this client is connected to. Stuff such has goal, death link.
 var _received_indexes = []
 
-var _death_link: bool
+var _death_link: bool ## Wether death link is enabled or not.
 
 signal could_not_connect(errorMessage)
 signal connect_status(message)
@@ -53,15 +51,17 @@ signal logInformations(informations)
 signal slot_data_retrieved(slot_data)
 signal location_scout_retrieved(scout_data)
 
+signal sync_retrieved
+
+signal hint_retrieved(hint_location)
+
 func _init():
-	ProjectSettings.set_setting("network/limits/websocket_client/max_in_buffer_kb", 8192)
+	ProjectSettings.set_setting("network/limits/websocket_client/max_in_buffer_kb", 8192) ## Increase the websocket buffer size.
 	_newClient()
 
 
-
-
 func _newClient():
-	_client = load("res://mods-unpacked/Emerald-Archipelago/ap/WebSocketClient.gd").new()
+	_client = load("res://mods-unpacked/Emerald-Archipelago/ap/WebSocketClient.gd").new() # creates a websocket client.
 	print("Instantiated APClient")
 	_client.connection_closed.connect(self._closed)
 	_client.data_received.connect(self._on_data)
@@ -100,19 +100,19 @@ func _connected():
 func _on_data(packet: PackedByteArray):
 	#print("Got data from server: " + packet.get_string_from_utf8())
 
-	var json = JSON.new()
-	var errorJson: Error = json.parse(packet.get_string_from_utf8())
-	if errorJson != OK:
+	var json = JSON.new() # Create json
+	var errorJson: Error = json.parse(packet.get_string_from_utf8()) # parse json for errors
+	if errorJson != OK: # If error. return
 		print("Error parsing packet from AP: " + json.get_error_message())
 		return
 
 	var data_received = json.data
-	for message in data_received:
+	for message in data_received: # look at every message in data received.
 		var cmd = message["cmd"]
 		
 		print("Received command: " + cmd)
 
-		if cmd == "RoomInfo":
+		if cmd == "RoomInfo": # If cmd is RoomInfo collect remove version, seed.
 			_seed = message["seed_name"]
 			_remote_version = message["version"]
 
@@ -124,14 +124,15 @@ func _on_data(packet: PackedByteArray):
 				):
 					needed_games.append(game)
 
-			emit_signal("packetRoomInfo")
+			emit_signal("packetRoomInfo") # Send signal that we got room info packet.
 			if !needed_games.is_empty():
 				_pending_packages = needed_games
 				var cur_needed = _pending_packages.pop_front()
 				requestDatapackages([cur_needed])
 			else:
 				connectToRoom(_ap_user, _ap_pass)
-		elif cmd == "Connected":
+		elif cmd == "Connected": # If cmd is connected set team, slot, and give all of the locations that this slot has already checked.
+			# Along with giving slot data which includes if death link is enabled and what goal was selected in the YAML.
 			_authenticated = true
 			_team = message["team"]
 			_slot = message["slot"]
@@ -143,14 +144,15 @@ func _on_data(packet: PackedByteArray):
 
 			for player in _players:
 				_player_name_by_slot[int(player["slot"])] = player["alias"]
-
-			_death_link = _slot_data.has("deathLink") and _slot_data["deathLink"]
+			
+			
+			_death_link = _slot_data.has("death_link") and bool(_slot_data["death_link"])
 			
 			if _death_link:
 				_sendConnectUpdate(["DeathLink"])
 
 			
-			slot_data_retrieved.emit(_slot_data)
+			slot_data_retrieved.emit(_slot_data) # Emit that we have collected the slot data and send the slot data.
 			_requestSync()
 
 			packetConnected.emit()
@@ -193,7 +195,7 @@ func _on_data(packet: PackedByteArray):
 
 			could_not_connect.emit(error_message)
 			print("Connection to AP refused")
-			print(message)
+			#print(message)
 		elif cmd == "DataPackage":
 			for game in message["data"]["games"].keys():
 				_datapackages[game] = message["data"]["games"][game]
@@ -206,6 +208,8 @@ func _on_data(packet: PackedByteArray):
 				connectToRoom(_ap_user, _ap_pass)
 		elif cmd == "ReceivedItems":
 			var i = 0
+			if message["index"] == 0:
+				_sync()
 			for item in message["items"]:
 				processItem(int(item["item"]), int(message["index"] + i), int(item["player"]), int(item["flags"]))
 				i += 1
@@ -240,6 +244,7 @@ func _on_data(packet: PackedByteArray):
 							% [item_color, item_name, is_for, location_name]
 						)
 					)
+					hint_retrieved.emit(location_name)
 			else:
 				if message["receiving"] != _slot:
 					emit_signal("logInformations", 
@@ -272,6 +277,10 @@ func _sendConnectUpdate(tags):
 func _requestSync():
 	sendMessage([{"cmd": "Sync"}])
 
+func _sync():
+	_received_indexes.clear()
+	sync_retrieved.emit()
+
 func disconnect_from_ap():
 	logInformations.emit("Disconnecting...")
 	_initiated_disconnect = true
@@ -284,6 +293,8 @@ func connectToServer(ap_server, ap_name, ap_pass):
 	_ap_server = ap_server
 	_ap_user = ap_name
 	_ap_pass = ap_pass
+	
+	ap_server = "wss://" + ap_server
 
 	var url = ""
 	if ap_server.begins_with("ws://") or ap_server.begins_with("wss://"):
@@ -328,8 +339,8 @@ func processDatapackages():
 	if _datapackages.has(GAME_NAME):
 		_item_name_to_id = _datapackages[GAME_NAME]["item_name_to_id"]
 		_location_name_to_id = _datapackages[GAME_NAME]["location_name_to_id"]
-	print(_item_name_to_id)
-	print(_location_name_to_id)
+	#print(_item_name_to_id)
+	#print(_location_name_to_id)
 
 func requestDatapackages(games):
 	emit_signal("connect_status", "Downloading %s data package..." % games[0])

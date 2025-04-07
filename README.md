@@ -8,11 +8,11 @@ This is a Mod for Nodebuster that provides integration for Archipelago Multi Wor
 # Gameplay
 After generating a seed, every upgrade in the upgrade tree scene will be different. Instead of the first damage upgrade giving you a damage upgrade. It could instead give you a health upgrade.
 
-Locations(Checks) are the upgrade nodes in the upgrade tree.
+Locations(Checks) are the upgrade nodes in the upgrade tree, Milestone rewards, Boss Drops, and CryptoMine Levels.
 
 ### Recommended Software
 * QOL Mods.
-    * I would highly recommend using a QOL mod just to make your life easier. As this game while normally not long. Does have over 500 checks on the standard settings. And with progression being so broken up due to randomization it can easily make the game a lot longer.
+    * I would highly recommend using a QOL mod just to make your life easier. As this game while normally not long, does have over 500 checks on the standard settings. And with progression being so broken up due to randomization it can easily make the game a lot longer.
     * If you can not find a mod for Nodebuster you can find one [Here](https://github.com/Emerald836/Emerlad-Nodebuster-QOL-Mod/releases)
 
 # Installation
@@ -45,6 +45,10 @@ Locations(Checks) are the upgrade nodes in the upgrade tree.
 
 # Joining an Archipelago Game in Nodebuster
 1. Start the game after installing all necessary mods.
-2. At the top of the game screen input the server address, slot name, and password in the appropiate fields.
-3. Click new game.
- * I do not recommend clicking continue as it will most likely cause you to be further in progression then you should be.
+2. In the main menu you should see a Connect button instead of a new game, and cotinue game button.
+3. Click said Connect button.
+4. Input the correct information in the correct fields. (ie. "archipelago:12993" in the address slot.).
+5. Click Connect and wait a tiny bit.
+ * If it takes more then a min to connect then check your input fields to make sure everything is correct.
+6. After the game connects to archipelago. It will either take you straight to the upgrade tree scene. Or if you have a save file that was already connected to the server address you are using. It will instead ask if you want to use the aforementioned save file or no.
+7. Enjoy!

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cw007iwhehtp8"]
+
+[ext_resource type="Texture2D" uid="uid://bnieoit2u5yx2" path="res://Sprites/SkillNode.png" id="1_dw17f"]
+[ext_resource type="Script" path="res://mods-unpacked/Emerald-Archipelago/HintIndicator.gd" id="2_is65e"]
+
+[node name="HintIndicator" type="NinePatchRect"]
+visible = false
+self_modulate = Color(0.945098, 0, 0.964706, 1)
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 18.0
+offset_bottom = 18.0
+texture = ExtResource("1_dw17f")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+script = ExtResource("2_is65e")

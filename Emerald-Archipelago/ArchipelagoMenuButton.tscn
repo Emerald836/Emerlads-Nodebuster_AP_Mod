@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://yub6stdp620l"]
+
+[ext_resource type="Script" path="res://mods-unpacked/Emerald-Archipelago/ap/ArchipelagoMenuButton.gd" id="1_81mhi"]
+[ext_resource type="PackedScene" uid="uid://cjqgfnah8fy1f" path="res://Scenes/UI/Buttons/TextButton.tscn" id="1_yiv0e"]
+
+[node name="ArchipelagoMenuButton" type="Control"]
+custom_minimum_size = Vector2(78, 30)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -402.0
+offset_bottom = -240.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_81mhi")
+
+[node name="TextButton" parent="." instance=ExtResource("1_yiv0e")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+btn_text = "Connect"

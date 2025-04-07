@@ -1,0 +1,89 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmhtyjwbpbdeq"]
+
+[ext_resource type="PackedScene" uid="uid://cjqgfnah8fy1f" path="res://Scenes/UI/Buttons/TextButton.tscn" id="1_joc0w"]
+[ext_resource type="Script" path="res://mods-unpacked/Emerald-Archipelago/ap/ArchipelagoConnectionPopup.gd" id="1_v5g0p"]
+
+[node name="ArchipelagoConnectionPopup" type="PanelContainer"]
+offset_right = 252.0
+offset_bottom = 88.0
+theme_type_variation = &"FilledPanel"
+script = ExtResource("1_v5g0p")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Connect to Archipelago"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 24
+
+[node name="URL" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 0
+placeholder_text = "URL"
+virtual_keyboard_enabled = false
+
+[node name="Password" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 0
+placeholder_text = "Password?"
+virtual_keyboard_enabled = false
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 24
+
+[node name="Slotname" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_vertical = 0
+placeholder_text = "Slotname"
+virtual_keyboard_enabled = false
+
+[node name="TextButton" parent="MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer2" instance=ExtResource("1_joc0w")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 20)
+layout_mode = 2
+btn_text = "Connect"
+
+[node name="BackBtn" parent="MarginContainer/VBoxContainer" instance=ExtResource("1_joc0w")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_vertical = 8
+btn_text = "back"
+main_color = Color(0.941176, 0.227451, 0.247059, 1)
